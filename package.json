@@ -1,29 +1,47 @@
 {
-  "name": "mithril-node-render",
-  "version": "2.1.0",
+  "name": "mithril-render",
+  "version": "1.1.0",
   "description": "Node rending of mithril views",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "clean": "find . -name '*.js' -o -name '*.d.ts' | grep -v node_modules/ | grep -v types/ | xargs rm -v",
+    "lint": "find . -name '*.ts' -print | grep -v .d.ts | grep -v node_modules/ | grep -v .spec. | xargs tslint -t verbose",
+    "prepare": "npm run tsc",
+    "pretest": "npm run lint",
+    "test": "mocha -r ts-node/register *.spec.ts",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/StephanHoyer/mithril-node-render.git"
+    "url": "https://github.com/tlaziuk/mithril-render.git"
   },
   "keywords": [
     "mithril",
-    "node",
-    "render",
-    "template"
+    "render"
   ],
-  "author": "Stephan Hoyer <ste.hoyer@gmail.com>",
+  "author": "Tomek Łaziuk <tlaziuk@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/StephanHoyer/mithril-node-render/issues"
+    "url": "https://github.com/tlaziuk/mithril-render/issues"
   },
-  "homepage": "https://github.com/StephanHoyer/mithril-node-render",
+  "homepage": "https://github.com/tlaziuk/mithril-render",
+  "peerDependencies": {
+    "mithril": "~1.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.0",
+    "@types/sinon": "^2.3.0",
+    "chai": "^4.0.0",
+    "mithril": "~1.1.0",
+    "mocha": "^2.2.0",
+    "sinon": "^2.3.0",
+    "ts-node": "^3.2.0",
+    "tslint": "^5.5.0",
+    "typescript": "~2.4.0"
+  },
   "dependencies": {
-    "co": "4.6.0",
-    "mithril": "1.1.1"
+    "@types/mithril": "~1.1.0",
+    "tslib": "^1.7.0"
   }
 }
