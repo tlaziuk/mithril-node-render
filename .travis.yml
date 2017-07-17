@@ -8,10 +8,10 @@ node_js:
   - 8
 deploy:
   provider: npm
-  email: "tlaziuk@gmail.com"
+  email: tlaziuk@gmail.com
   api_key:
-    secure: "imp1U7Pl6pYcMxwg6boBQlRWf08hKl/9SyXcKIeG1HuL27DDsuvlsYZfdVBLPvHEwgGH89fFhdPv5AKpTmt8bBES/t3/LLTfCO4Wx0inXeUI+558yDB+RpWN8dtiKfOWGDqeDFL01zYnPfVTclzLR+mDVgAcQxqRov7YpANpD0E1WIAzXpxCYyO3SgEkJlZ0s0R4zfG2Ibm/nJ7caaHbJJqwjxZsDI2IRdSLdl/WucaoSnRbFW8hTLP5IaTNkahFIeqhP2jLl0S1YIxrV4B3Bt7f0PCqfhELAQNkJ/hcu4whtJ0EMzmQO/brHPC3mKSPDDThaQLJf7pnFbZhL355BhvMwpai8SlHTIxxG6hpqjyf0KZp/7tA9lxyGEz9JYOQwe/msPnGtYXlM4tkp5k3xELxU4BVI4kPE9DMPy10wg/FJw+Jxg5CelDvXhKHWF6/AkZpzwV3CgxDib2iopZkouevy1illJ+n555Q2yaF6b0ZDf6Ymf4feqhICvNYOI01ATC+c0wzctyFAV546UCQjJGv5HRsuOzwoOBnOzhnTBhHC+OljW+jsrAQpqDvUbmacvlIzR2g0dgZJOK/A3NkuCJ2wEb8z9USnVx8TRoRETqFS8mswW34sgLtXcF3TYfdGK+x1acNlNS4E+rxYL8gcJzWsOKnIKwBJ8BHBKnd4YQ="
-  on:
-    tags: true
-    branch: master
-    repo: tlaziuk/mithril-render
+    secure: JMrf87Fc+T7Doq/Z1JzoioBhUT+66ar3ISuSuHWQYsOq2bP6oahXdR3z5ca4VrNGVpPZrsLvL8i0b/VuYY1YYhAupOgiayl3lZSBga1hiF7s89Qz+mVOkXJd81VYads0F+hXOpO2lP8I/n+NOB2bDLsdhNujrh1k1Y+XJ5KVLAnh/gZhrC+lXRgMapvFOlwYCrBm7QWso6UnVGQF5XW9/J0pwswAhoMBnqqhFiPS4gwU5QC+5Ttu35pvd3kl89/0emfcyudUu+6LecZybugOnNHo1QTYpaOSlLPBVTXFeVELWFcemAZmDOgUhGmbutoaM1bK3VJWhk7HRug39y1r/lUZvfSeP8yS2zVPwTEh5bhqjaNEu0oHLvzzL2R7Mxz0OXVvRHg+BcemTVH34hRW6pqY/elYRM60LRWMzxgKOVo7yxI8/dPNdayPdZBTBwLfBb4osQe3C7zBDlkTQ1clr9TqaM67OzpZ83bltTC5lULYuz4qvkSdjKwF5bA5jGFsBiU3dyTXF+MjTZjeLLzXEL8emuoo7aOa5oN5WjXB1nmn8ywM1ozjsh9mZYp+elZ3bb2BeFPu/uRBkg8HlcqqhxTm92eHxMg8xvK9iUnJVOpONvNKaumZILOnHBNWvOSyrF5nacXbxv7XikZSpGwJbmmymLeB6wV1E4uAPhUylxE=
+    on:
+      tags: true
+      branch: master
+      repo: tlaziuk/mithril-render
