@@ -41,11 +41,11 @@ const isComponent =
 
 const isClassComponent =
     (component: any): component is { new(vnode: CVnode<Attributes>): ClassComponent<Attributes> } =>
-        typeof component === "function" && typeof component.prototype.view === "function";
+        typeof component === "function" && component.prototype && typeof component.prototype.view === "function";
 
 const isFactoryComponent =
     (component: any): component is FactoryComponent<Attributes> =>
-        typeof component === "function" && typeof component.prototype.view !== "function";
+        typeof component === "function" && !(component.prototype && typeof component.prototype.view === "function");
 
 const isComponentTypes =
     (component: any): component is ComponentTypes<Attributes, Lifecycle<Attributes, {}>> =>
