@@ -25,7 +25,7 @@ import * as m from "mithril";
 // use a mock DOM so we can run mithril on the server
 browserMock(global);
 
-render(m('span', 'huhu')).then(function (html) {
+render(m('span', 'huhu')).then((html) => {
     console.log(html);
 });
 ```
