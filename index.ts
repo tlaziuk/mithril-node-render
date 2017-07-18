@@ -35,21 +35,29 @@ const VOID_TAGS = [
     "wbr",
 ];
 
-const isComponent =
-    (component: any): component is Component<Attributes, Lifecycle<Attributes, {}>> =>
-        typeof component === "object" && typeof component.view === "function";
+export function isComponent(
+    component: any,
+): component is Component<Attributes, Lifecycle<Attributes, {}>> {
+    return typeof component === "object" && component !== null && typeof component.view === "function";
+}
 
-const isClassComponent =
-    (component: any): component is { new(vnode: CVnode<Attributes>): ClassComponent<Attributes> } =>
-        typeof component === "function" && component.prototype && typeof component.prototype.view === "function";
+export function isClassComponent(
+    component: any,
+): component is { new(vnode: CVnode<Attributes>): ClassComponent<Attributes> } {
+    return typeof component === "function" && isComponent(component.prototype);
+}
 
-const isFactoryComponent =
-    (component: any): component is FactoryComponent<Attributes> =>
-        typeof component === "function" && !(component.prototype && typeof component.prototype.view === "function");
+export function isFactoryComponent(
+    component: any,
+): component is FactoryComponent<Attributes> {
+    return typeof component === "function" && !isComponent(component.prototype);
+}
 
-const isComponentTypes =
-    (component: any): component is ComponentTypes<Attributes, Lifecycle<Attributes, {}>> =>
-        isComponent(component) || isClassComponent(component) || isFactoryComponent(component);
+export function isComponentType(
+    component: any,
+): component is ComponentTypes<Attributes, Lifecycle<Attributes, {}>> {
+    return isComponent(component) || isClassComponent(component) || isFactoryComponent(component);
+}
 
 // tslint:disable:no-bitwise
 export enum Escape {
@@ -201,7 +209,7 @@ export async function render(
                 ].join("");
             }
         }
-    } else if (isComponentTypes(view.tag)) {
+    } else if (isComponentType(view.tag)) {
         const tag = view.tag as ComponentTypes<any, any>;
         if (isComponent(tag)) {
             view.state = tag;

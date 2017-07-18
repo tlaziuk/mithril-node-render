@@ -26,6 +26,10 @@ import * as mTrust from "mithril/render/trust";
 import render, {
     Escape as EscapeEnum,
     escapeHtml,
+    isClassComponent,
+    isComponent,
+    isComponentType,
+    isFactoryComponent,
 } from "./index";
 
 describe(render.name, () => {
@@ -500,5 +504,72 @@ describe(escapeHtml.name, () => {
         expect(escapeHtml(str, EscapeEnum.Quotes)).to.be.equal(`&quot;&#39;`, `quotes are not escaped`);
         expect(escapeHtml(str, EscapeEnum.QuotesDouble)).to.be.equal(`&quot;'`, `double quotes are not escaped`);
         expect(escapeHtml(str, EscapeEnum.QuotesSingle)).to.be.equal(`"&#39;`, `single quotes are not escaped`);
+    });
+});
+
+describe(isComponentType.name, () => {
+    const cmp = {
+        view: () => undefined,
+    } as Component<Attributes, any>;
+    // tslint:disable-next-line:only-arrow-functions
+    const cmpFactory = function() {
+        return cmp;
+    } as FactoryComponent<Attributes>;
+    // tslint:disable-next-line:class-name
+    class cmpClass implements ClassComponent<Attributes> {
+        public view() {
+            return undefined;
+        }
+    }
+    it(`should return boolean`, () => {
+        expect(isComponentType(undefined)).to.be.a(`boolean`);
+        expect(isComponentType(true)).to.be.a(`boolean`);
+        expect(isComponentType(false)).to.be.a(`boolean`);
+        expect(isComponentType(null)).to.be.a(`boolean`);
+        expect(isComponentType(NaN)).to.be.a(`boolean`);
+        expect(isComponentType(0)).to.be.a(`boolean`);
+        expect(isComponentType(Number.POSITIVE_INFINITY)).to.be.a(`boolean`);
+        expect(isComponentType(Number.NEGATIVE_INFINITY)).to.be.a(`boolean`);
+        expect(isComponentType(isComponentType.toString())).to.be.a(`boolean`);
+        expect(isComponentType(``)).to.be.a(`boolean`);
+        expect(isComponentType({})).to.be.a(`boolean`);
+        expect(isComponentType(() => undefined)).to.be.a(`boolean`);
+        expect(isComponentType(Symbol())).to.be.a(`boolean`);
+        expect(isComponentType([])).to.be.a(`boolean`);
+    });
+    it(`should work with any input`, () => {
+        expect(isComponentType(undefined)).to.be.equal(false);
+        expect(isComponentType(true)).to.be.equal(false);
+        expect(isComponentType(false)).to.be.equal(false);
+        expect(isComponentType(null)).to.be.equal(false);
+        expect(isComponentType(NaN)).to.be.equal(false);
+        expect(isComponentType(0)).to.be.equal(false);
+        expect(isComponentType(Number.POSITIVE_INFINITY)).to.be.equal(false);
+        expect(isComponentType(Number.NEGATIVE_INFINITY)).to.be.equal(false);
+        expect(isComponentType(isComponentType.toString())).to.be.equal(false);
+        expect(isComponentType(``)).to.be.equal(false);
+        expect(isComponentType({})).to.be.equal(false);
+        // any function without view function in prototype may be a component?
+        expect(isComponentType(() => undefined)).to.be.equal(true);
+        expect(isComponentType(Symbol())).to.be.equal(false);
+        expect(isComponentType([])).to.be.equal(false);
+        expect(isComponentType(cmp)).to.be.equal(true);
+        expect(isComponentType(cmpFactory)).to.be.equal(true);
+        expect(isComponentType(cmpClass)).to.be.equal(true);
+    });
+    it(isComponent.name, () => {
+        expect(isComponent(cmp)).to.be.equal(true);
+        expect(isComponent(cmpFactory)).to.be.equal(false);
+        expect(isComponent(cmpClass)).to.be.equal(false);
+    });
+    it(isClassComponent.name, () => {
+        expect(isClassComponent(cmp)).to.be.equal(false);
+        expect(isClassComponent(cmpFactory)).to.be.equal(false);
+        expect(isClassComponent(cmpClass)).to.be.equal(true);
+    });
+    it(isFactoryComponent.name, () => {
+        expect(isFactoryComponent(cmp)).to.be.equal(false);
+        expect(isFactoryComponent(cmpFactory)).to.be.equal(true);
+        expect(isFactoryComponent(cmpClass)).to.be.equal(false);
     });
 });
