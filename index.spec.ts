@@ -478,6 +478,27 @@ describe(render.name, () => {
             expect(timeoutSpy.calledAfter(oninitSpy)).to.be.equal(true, `something really weird happend`);
         });
     });
+
+    describe(`root component`, () => {
+        const cmp = {
+            view: () => m(`#`, `test`),
+        } as Component<Attributes, any>;
+        // tslint:disable-next-line:only-arrow-functions
+        const cmpFactory = function() {
+            return cmp;
+        } as FactoryComponent<Attributes>;
+        // tslint:disable-next-line:class-name
+        class cmpClass implements ClassComponent<Attributes> {
+            public view() {
+                return m(`#`, `test`);
+            }
+        }
+        it(`should not fail`, async () => {
+            expect(await render(cmp)).to.be.a(`string`);
+            expect(await render(cmpFactory)).to.be.a(`string`);
+            expect(await render(cmpClass)).to.be.a(`string`);
+        });
+    });
 });
 
 describe(escapeHtml.name, () => {
