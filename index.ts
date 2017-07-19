@@ -145,11 +145,11 @@ const parseHooks = async (
     hooks: Array<() => any>,
     lifecycle = getLifecycle(vnode),
 ): Promise<void> => {
-    if (lifecycle.oninit) {
+    if (typeof lifecycle.oninit === "function") {
         await lifecycle.oninit.call(vnode.state, vnode);
     }
 
-    if (lifecycle.onremove) {
+    if (typeof lifecycle.onremove === "function") {
         hooks.push(lifecycle.onremove.bind(vnode.state, vnode));
     }
 };
@@ -230,7 +230,10 @@ export async function render(
             throw new Error(`unknown component type: '${tag}'`);
         }
         await parseHooks(view, hooks);
-        result = await callSelf(view.state.view.call(view.state, view));
+        if (isComponent(view.state)) {
+            // just to be sure...
+            result = await callSelf(view.state.view.call(view.state, view));
+        }
     } else {
         throw new Error(`unknown component: '${view}'`);
     }

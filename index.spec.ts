@@ -495,8 +495,11 @@ describe(render.name, () => {
         }
         it(`should not fail`, async () => {
             expect(await render(cmp)).to.be.a(`string`);
+            expect(await render(cmp)).to.be.equal(`<div>test</div>`);
             expect(await render(cmpFactory)).to.be.a(`string`);
+            expect(await render(cmpFactory)).to.be.equal(`<div>test</div>`);
             expect(await render(cmpClass)).to.be.a(`string`);
+            expect(await render(cmpClass)).to.be.equal(`<div>test</div>`);
         });
     });
 });
