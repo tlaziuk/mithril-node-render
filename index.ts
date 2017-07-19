@@ -154,38 +154,6 @@ const parseHooks = async (
     }
 };
 
-const getVnode = (
-    cmp: ComponentTypes<any, any>,
-    {
-        attrs = {},
-        children,
-        key,
-        state = {},
-        tag = cmp as any,
-        text,
-    }: Partial<Vnode<any, any>> = {},
-) => {
-    const vnode: Vnode<any, any> = {
-        attrs,
-        children,
-        key,
-        state,
-        tag,
-        text,
-    };
-    if (isComponent(cmp)) {
-        vnode.state = cmp;
-    } else if (isClassComponent(cmp)) {
-        vnode.state = new cmp(vnode);
-        Object.assign(vnode.state, cmp.prototype, vnode.state);
-    } else if (isFactoryComponent(cmp)) {
-        vnode.state = cmp(vnode);
-    } else {
-        throw new Error(`unknown component type: '${cmp}'`);
-    }
-    return vnode;
-};
-
 export async function render(
     view: Children | ComponentTypes<any, any>,
     {
@@ -211,7 +179,11 @@ export async function render(
     }
 
     if (isComponentType(view)) {
-        view = getVnode(view);
+        view = {
+            attrs: {},
+            state: {},
+            tag: view,
+        } as Vnode<any, any>;
     }
 
     // view must be a Vnode
@@ -246,7 +218,17 @@ export async function render(
             }
         }
     } else if (isComponentType(view.tag)) {
-        Object.assign(view, getVnode(view.tag, view));
+        const tag = view.tag as ComponentTypes<any, any>;
+        if (isComponent(tag)) {
+            view.state = tag;
+        } else if (isClassComponent(tag)) {
+            view.state = new tag(view);
+            Object.assign(view.state, tag.prototype, view.state);
+        } else if (isFactoryComponent(tag)) {
+            view.state = tag(view);
+        } else {
+            throw new Error(`unknown component type: '${tag}'`);
+        }
         await parseHooks(view, hooks);
         result = await callSelf(view.state.view.call(view.state, view));
     } else {
