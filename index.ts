@@ -155,7 +155,7 @@ const parseHooks = async (
 };
 
 export async function render(
-    view: Children,
+    view: Children | ComponentTypes<any, any>,
     {
         strict = false,
         hooks = [],
@@ -176,6 +176,14 @@ export async function render(
 
     if (!view) {
         return "";
+    }
+
+    if (isComponentType(view)) {
+        view = {
+            attrs: {},
+            state: {},
+            tag: view,
+        } as Vnode<any, any>;
     }
 
     // view must be a Vnode
