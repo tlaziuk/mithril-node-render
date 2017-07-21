@@ -13,6 +13,7 @@ import {
 export interface IOptions {
     strict: boolean;
     hooks: Array<() => any>;
+    attrs: Attributes;
 }
 
 const VOID_TAGS = [
@@ -157,11 +158,14 @@ const parseHooks = async (
 export async function render(
     view: Children | ComponentTypes<any, any>,
     {
-        strict = false,
+        attrs = {},
         hooks = [],
+        strict = false,
     }: Partial<IOptions> = {},
 ): Promise<string> {
     const callSelf = (v: Children, opts: Partial<IOptions> = {}) => render(v, {
+        // attributes used by the root component
+        attrs,
         strict,
         ...opts,
     });
@@ -180,7 +184,7 @@ export async function render(
 
     if (isComponentType(view)) {
         view = {
-            attrs: {},
+            attrs,
             state: {},
             tag: view,
         } as Vnode<any, any>;
@@ -206,12 +210,12 @@ export async function render(
         } else {
             // tag
             const childs = await callSelf(view.text ? view.text : view.children);
-            const attrs = createAttrString(view);
+            const attributes = createAttrString(view);
             if (!childs.length && (VOID_TAGS.indexOf(view.tag.toLowerCase()) >= 0 || strict)) {
-                result = `<${view.tag}${attrs.length > 0 ? ` ${attrs}` : ""}${strict ? "/" : ""}>`;
+                result = `<${view.tag}${attributes.length > 0 ? ` ${attributes}` : ""}${strict ? "/" : ""}>`;
             } else {
                 result = [
-                    `<${view.tag}${attrs.length > 0 ? ` ${attrs}` : ""}>`,
+                    `<${view.tag}${attributes.length > 0 ? ` ${attributes}` : ""}>`,
                     childs,
                     `</${view.tag}>`,
                 ].join("");

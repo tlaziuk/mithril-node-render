@@ -501,6 +501,20 @@ describe(render.name, () => {
             expect(await render(cmpClass)).to.be.a(`string`);
             expect(await render(cmpClass)).to.be.equal(`<div>test</div>`);
         });
+        it(`should have access to attributes`, async () => {
+            const attrSpy = spy();
+            const attributes = {
+                oninit: ({ attrs }) => {
+                    attrSpy();
+                    expect(attrs.testAttr).to.be.equal(`test`);
+                },
+                testAttr: `test`,
+            } as Attributes;
+            expect(await render(cmp, { attrs: attributes })).to.be.a(`string`);
+            expect(await render(cmpFactory, { attrs: attributes })).to.be.a(`string`);
+            expect(await render(cmpClass, { attrs: attributes })).to.be.a(`string`);
+            expect(attrSpy.calledThrice).to.be.equal(true);
+        });
     });
 });
 
