@@ -34,5 +34,6 @@ render(m('span', 'huhu')).then((html) => {
 
 ## See also
 
+* [mithril.js](https://github.com/MithrilJS/mithril.js)
 * [mithril-node-render](https://github.com/StephanHoyer/mithril-node-render/)
 * [mithril-express-middleware](https://github.com/tlaziuk/mithril-express-middleware/)
