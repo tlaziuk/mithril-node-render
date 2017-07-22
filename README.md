@@ -6,6 +6,7 @@
 [![peerDependencies Status](https://david-dm.org/tlaziuk/mithril-render/peer-status.svg)](https://david-dm.org/tlaziuk/mithril-render?type=peer)
 [![npm version](https://badge.fury.io/js/mithril-render.svg)](https://badge.fury.io/js/mithril-render)
 [![downloads](https://img.shields.io/npm/dm/mithril-render.svg)](https://www.npmjs.com/package/mithril-render)
+[![license](https://img.shields.io/npm/l/mithril-render.svg)](https://www.npmjs.com/package/mithril-render)
 
 this is a `TypeScript` fork  of Stephan Hoyer's [mithril-node-render](https://github.com/MithrilJS/mithril-node-render/)
 
