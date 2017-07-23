@@ -1,6 +1,7 @@
 # mithril-render
 
 [![Build Status](https://travis-ci.org/tlaziuk/mithril-render.svg?branch=master)](https://travis-ci.org/tlaziuk/mithril-render)
+[![Coverage Status](https://coveralls.io/repos/github/tlaziuk/mithril-render/badge.svg?branch=master)](https://coveralls.io/github/tlaziuk/mithril-render?branch=master)
 [![dependencies Status](https://david-dm.org/tlaziuk/mithril-render/status.svg)](https://david-dm.org/tlaziuk/mithril-render)
 [![devDependencies Status](https://david-dm.org/tlaziuk/mithril-render/dev-status.svg)](https://david-dm.org/tlaziuk/mithril-render?type=dev)
 [![peerDependencies Status](https://david-dm.org/tlaziuk/mithril-render/peer-status.svg)](https://david-dm.org/tlaziuk/mithril-render?type=peer)
