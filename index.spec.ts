@@ -634,26 +634,25 @@ describe(render.name, () => {
             try {
                 const oninitSpy = spy();
                 const onremoveSpy = spy();
-                const viewSpy = spy();
+                const viewSpy = spy(() => ``);
                 class Cmp implements ClassComponent<Attributes> {
-                    public oninit({ state }: CVnode<Attributes>) {
-                        oninitSpy();
-                        expect(this).to.be.equal(state);
+                    public get oninit() {
+                        return oninitSpy;
                     }
-                    public onremove({ state }: CVnode<Attributes>) {
-                        onremoveSpy();
-                        expect(this).to.be.equal(state);
+                    public get onremove() {
+                        return onremoveSpy;
                     }
-                    public view({ state }: CVnode<Attributes>) {
-                        viewSpy();
-                        expect(this).to.be.equal(state);
-                        return ``;
+                    public get view() {
+                        return viewSpy;
                     }
                 }
                 expect(await render(m(Cmp))).to.be.equal(``);
-                expect(oninitSpy.calledOnce).to.be.equal(true, `oninit was not called`);
-                expect(onremoveSpy.calledOnce).to.be.equal(true, `onremove was not called`);
                 expect(viewSpy.calledOnce).to.be.equal(true, `view was not called`);
+                expect(viewSpy.firstCall.thisValue).to.be.equal(viewSpy.firstCall.args[0].state, `view was not with proper 'this'`);
+                expect(onremoveSpy.calledOnce).to.be.equal(true, `onremove was not called`);
+                expect(onremoveSpy.firstCall.thisValue).to.be.equal(onremoveSpy.firstCall.args[0].state, `onremove was not with proper 'this'`);
+                expect(oninitSpy.calledOnce).to.be.equal(true, `oninit was not called`);
+                expect(oninitSpy.firstCall.thisValue).to.be.equal(oninitSpy.firstCall.args[0].state, `oninit was not with proper 'this'`);
                 done();
             } catch (err) {
                 done(err);
@@ -757,6 +756,12 @@ describe(isComponentType.name, () => {
             return void 0;
         }
     }
+    // tslint:disable-next-line:class-name
+    class cmpClassGet implements ClassComponent<Attributes> {
+        public get view() {
+            return () => void 0;
+        }
+    }
     it(`should return boolean`, () => {
         expect(isComponentType(void 0)).to.be.a(`boolean`);
         expect(isComponentType(true)).to.be.a(`boolean`);
@@ -792,20 +797,24 @@ describe(isComponentType.name, () => {
         expect(isComponentType(cmp)).to.be.equal(true);
         expect(isComponentType(cmpFactory)).to.be.equal(true);
         expect(isComponentType(cmpClass)).to.be.equal(true);
+        expect(isComponentType(cmpClassGet)).to.be.equal(true, `'${cmpClassGet}' is not a ComponentType`);
     });
     it(isComponent.name, () => {
         expect(isComponent(cmp)).to.be.equal(true);
         expect(isComponent(cmpFactory)).to.be.equal(false);
         expect(isComponent(cmpClass)).to.be.equal(false);
+        expect(isComponent(cmpClassGet)).to.be.equal(false, `'${cmpClassGet}' is a Component`);
     });
     it(isClassComponent.name, () => {
         expect(isClassComponent(cmp)).to.be.equal(false);
         expect(isClassComponent(cmpFactory)).to.be.equal(false);
         expect(isClassComponent(cmpClass)).to.be.equal(true);
+        expect(isClassComponent(cmpClassGet)).to.be.equal(true, `'${cmpClassGet}' is not a ClassComponent`);
     });
     it(isFactoryComponent.name, () => {
         expect(isFactoryComponent(cmp)).to.be.equal(false);
         expect(isFactoryComponent(cmpFactory)).to.be.equal(true);
         expect(isFactoryComponent(cmpClass)).to.be.equal(false);
+        expect(isFactoryComponent(cmpClassGet)).to.be.equal(false, `'${cmpClassGet}' is a FactoryComponent`);
     });
 });
