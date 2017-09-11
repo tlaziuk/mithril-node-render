@@ -68,7 +68,7 @@ export enum Escape {
     Quotes = QuotesSingle | QuotesDouble,
 }
 
-export function escapeHtml(
+const escapeHtml = (
     str: string,
     flag: Escape = Escape.Quotes,
     map: { [_: string]: string | void | false } = {
@@ -78,18 +78,16 @@ export function escapeHtml(
         "\<": `&lt;`,
         "\>": `&gt;`,
     },
-): string {
-    return str.replace(
-        new RegExp(
-            `[${Object.keys(map).map(
-                // use only 1-char keys and escape them
-                (key) => key.length === 1 && map[key] !== false ? `\\${key}` : undefined,
-            ).join("")}]`,
-            `gi`,
-        ),
-        (key) => typeof map[key] === "string" ? map[key] as string : `&#${key.charCodeAt(0)};`,
-    );
-}
+): string => str.replace(
+    new RegExp(
+        `[${Object.keys(map).map(
+            // use only 1-char keys and escape them
+            (key) => key.length === 1 && map[key] !== false ? `\\${key}` : undefined,
+        ).join("")}]`,
+        `gi`,
+    ),
+    (key) => typeof map[key] === "string" ? map[key] as string : `&#${key.charCodeAt(0)};`,
+);
 // tslint:enable:no-bitwise
 
 const getLifecycle = (view: Vnode<Attributes, Lifecycle<Attributes, {}>>): Lifecycle<Attributes, {}> => {
