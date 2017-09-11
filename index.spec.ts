@@ -259,7 +259,7 @@ describe(render.name, () => {
         beforeEach(() => {
             oninitSpy = spy();
             onremoveSpy = spy();
-            viewSpy = spy(({ children }: Vnode<Attributes, any>) => children);
+            viewSpy = spy(({ children }: Vnode<Attributes, any> = {} as any) => children);
         });
 
         it(`node`, async (done) => {
