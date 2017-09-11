@@ -1,15 +1,13 @@
 language: node_js
 sudo: false
 node_js:
-  - 8
-  - 6
-  - 4
+  - node
+  - lts/*
 after_success: npm run coveralls
 deploy:
   provider: npm
+  email: $NPM_EMAIL
+  api_key: $NPM_API_KEY
   on:
     tags: true
     repo: tlaziuk/mithril-render
-  email: tlaziuk@gmail.com
-  api_key:
-    secure: YHfVC+FPsIUAnzTQwxt+3AI9tOXVcMk+ukgDDWmMP27tFbffYsyxfqNq+dQBneyfYgOyjX/t6IPxGP681oz3+R7j3HZRjHdopzO831DIvgCMoPQHCYFhig1W8Xjg/30Y3aNZroUsAOzLIOXE8+fc0U6ioA5RY568l+AkbJiSpxE5JGbLRDAroJHIEmnd/ODqsjrlVvCB2GlmWmRzu3aCxXjFcGIF4D0bwSzhD29TegBjXsBYaSqLsI+PxNKRbVZqBHCSu+ElTlT3QXbhUPTPDDzaG9s9IZHU9mtMUMPVse520XbpiX8H7pIvuEyau8Jg/jAZ01lDdALOVWPcWsOVJCVbx7vRGop2bo7dbKYiF95tO/skF6Q2xQ2CgIPFIxigVLfjG5ae9ipEjeDE8RSNxQzHP3Wy86pwQEAfcR2CzAEtgezqMIxwXI8vcuSjTu9/QaXsD7MGc+04VyoFxceRF67m8j1S58hRgLI/Qkp1h3lZs3tsZPh0XBDwJzYQcZK88w5N6CPWeCczHcmftPjdmxfsLtLLzJ7Ka1dkn9SEYInIDZjFM15oAeEMb3+tJHwuxMU9+JOmxTHk8NbJuembGmGrtwuk4QkFqSJfgUzIfBt7L0EhQpJ95mmlEcnI3zTHKcVmxK82V0D7uYCr9dqp236wh7EkhBC4FAvNzgp3Tqw=
