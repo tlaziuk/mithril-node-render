@@ -87,7 +87,7 @@ const escapeHtml = (
         `gi`,
     ),
     (key) => typeof map[key] === "string" ? map[key] as string : `&#${key.charCodeAt(0)};`,
-);
+    );
 // tslint:enable:no-bitwise
 
 const getLifecycle = (
@@ -241,8 +241,6 @@ export async function render(
             Object.assign(view.state, tag.prototype, view.state);
         } else if (isFactoryComponent(tag)) {
             view.state = tag(view);
-        } else {
-            throw new Error(`unknown component type: '${tag}'`);
         }
         await parseHooks(view, hooks);
         if (isComponent(view.state)) {

@@ -249,6 +249,20 @@ describe(render.name, () => {
                 done(err);
             }
         });
+
+        it(`should throw on non-component`, async (done) => {
+            try {
+                try {
+                    await render(Symbol() as any);
+                    done(new Error(`failed`));
+                } catch {
+                    // pass
+                }
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
     });
 
     describe(`lifecycle`, () => {
@@ -276,6 +290,23 @@ describe(render.name, () => {
                 ));
                 expect(oninitSpy.calledOnce).to.be.equal(true, `oninit was not called`);
                 expect(onremoveSpy.calledOnce).to.be.equal(true, `onremove was not called`);
+                done();
+            } catch (err) {
+                done(err);
+            }
+        });
+
+        it(`'attrs' over 'state'`, async (done) => {
+            let oninitAttrsSpy = spy();
+            let cmp = {
+                oninit: oninitSpy,
+                onremove: onremoveSpy,
+                view: viewSpy,
+            } as Component<any, any>;
+            try {
+                await (render(m(cmp, { oninit: oninitAttrsSpy })));
+                expect(oninitSpy).to.have.property(`callCount`).equal(0, `state lifecycle method called`);
+                expect(oninitAttrsSpy).to.have.property(`callCount`).gt(0, `attrs lifecycle method not called`);
                 done();
             } catch (err) {
                 done(err);
@@ -341,6 +372,7 @@ describe(render.name, () => {
                 done(err);
             }
         });
+
         it(`Component`, async (done) => {
             try {
                 await render(m(
@@ -388,7 +420,7 @@ describe(render.name, () => {
                     public onremove = onremoveSpy;
                     // important note - view method can not be assigned in constructor,
                     // view method is used to detect if function is a class,
-                    // which means it's forbidden to do following thing:
+                    // which means it's impossible to do following thing:
                     // public view = viewSpy;
                     public view() {
                         viewSpy();
