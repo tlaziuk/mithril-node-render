@@ -1,7 +1,7 @@
 {
   "name": "mithril-render",
   "version": "1.1.8",
-  "description": "Node rending of mithril views",
+  "description": "rendering mithril.js components headlessly",
   "main": "index.js",
   "scripts": {
     "clean": "find . -name '*.js' -o -name '*.d.ts' | grep -v node_modules/ | grep -v types/ | xargs rm -v || exit 0",
@@ -28,7 +28,10 @@
     "url": "https://github.com/tlaziuk/mithril-render.git"
   },
   "keywords": [
+    "isomorphic",
     "mithril",
+    "mithril.js",
+    "node",
     "render"
   ],
   "author": "Tomek Łaziuk <tlaziuk@gmail.com>",
