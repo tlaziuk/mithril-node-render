@@ -68,7 +68,7 @@ export enum Escape {
     Quotes = QuotesSingle | QuotesDouble,
 }
 
-export function escapeHtml(
+const escapeHtml = (
     str: string,
     flag: Escape = Escape.Quotes,
     map: { [_: string]: string | void | false } = {
@@ -78,25 +78,32 @@ export function escapeHtml(
         "\<": `&lt;`,
         "\>": `&gt;`,
     },
-): string {
-    return str.replace(
-        new RegExp(
-            `[${Object.keys(map).map(
-                // use only 1-char keys and escape them
-                (key) => key.length === 1 && map[key] !== false ? `\\${key}` : undefined,
-            ).join("")}]`,
-            `gi`,
-        ),
-        (key) => typeof map[key] === "string" ? map[key] as string : `&#${key.charCodeAt(0)};`,
+): string => str.replace(
+    new RegExp(
+        `[${Object.keys(map).map(
+            // use only 1-char keys and escape them
+            (key) => key.length === 1 && map[key] !== false ? `\\${key}` : undefined,
+        ).join("")}]`,
+        `gi`,
+    ),
+    (key) => typeof map[key] === "string" ? map[key] as string : `&#${key.charCodeAt(0)};`,
     );
-}
 // tslint:enable:no-bitwise
 
-const getLifecycle = (view: Vnode<Attributes, Lifecycle<Attributes, {}>>): Lifecycle<Attributes, {}> => {
+const getLifecycle = (
+    {
+        attrs = {},
+        state = {},
+    }: Vnode<Attributes, Lifecycle<Attributes, {}>>,
+): Lifecycle<Attributes, {}> => {
     return {
-        ...view.state,
-        ...view.attrs,
-    } as any;
+        onbeforeremove: attrs.onbeforeremove || state.onbeforeremove,
+        onbeforeupdate: attrs.onbeforeupdate || state.onbeforeupdate,
+        oncreate: attrs.oncreate || state.oncreate,
+        oninit: attrs.oninit || state.oninit,
+        onremove: attrs.onremove || state.onremove,
+        onupdate: attrs.onupdate || state.onupdate,
+    };
 };
 
 const camelToDash = (str: string) => str.replace(/\W+/g, "-").replace(/([a-z\d])([A-Z])/g, "$1-$2");
@@ -144,14 +151,18 @@ function createAttrString(view: Vnode<Attributes, Lifecycle<Attributes, {}>>) {
 const parseHooks = async (
     vnode: Vnode<Attributes, Lifecycle<Attributes, {}>>,
     hooks: Array<() => any>,
-    lifecycle = getLifecycle(vnode),
 ): Promise<void> => {
-    if (typeof lifecycle.oninit === "function") {
-        await lifecycle.oninit.call(vnode.state, vnode);
+    const {
+        oninit,
+        onremove,
+    } = getLifecycle(vnode);
+
+    if (typeof oninit === "function") {
+        await oninit.call(vnode.state, vnode);
     }
 
-    if (typeof lifecycle.onremove === "function") {
-        hooks.push(lifecycle.onremove.bind(vnode.state, vnode));
+    if (typeof onremove === "function") {
+        hooks.push(async () => await onremove.call(vnode.state, vnode));
     }
 };
 
@@ -230,8 +241,6 @@ export async function render(
             Object.assign(view.state, tag.prototype, view.state);
         } else if (isFactoryComponent(tag)) {
             view.state = tag(view);
-        } else {
-            throw new Error(`unknown component type: '${tag}'`);
         }
         await parseHooks(view, hooks);
         if (isComponent(view.state)) {
@@ -242,7 +251,10 @@ export async function render(
         throw new Error(`unknown component: '${view}'`);
     }
 
-    await Promise.all(hooks.map((hook) => hook()));
+    // tslint:disable-next-line:prefer-const
+    for (let hook of hooks) {
+        await hook();
+    }
 
     return result;
 }
