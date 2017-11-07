@@ -55,7 +55,7 @@
     "sinon": "^2.3.0",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
-    "typescript": "^2.5.0"
+    "typescript": "~2.5.0"
   },
   "dependencies": {
     "@types/mithril": "~1.1.0",
