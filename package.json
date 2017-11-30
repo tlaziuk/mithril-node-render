@@ -4,14 +4,14 @@
   "description": "rendering mithril.js components headlessly",
   "main": "index.js",
   "scripts": {
-    "clean": "find . -name '*.js' -o -name '*.d.ts' | grep -v node_modules/ | grep -v types/ | xargs rm -v || exit 0",
+    "clean": "rm -v $(find . -name '*.js' -o -name '*.d.ts' | grep -v node_modules/) || exit 0",
     "coverage": "nyc report",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "lint": "find . -name '*.ts' -print | grep -v .d.ts | grep -v node_modules/ | grep -v .spec. | xargs tslint -t verbose",
+    "lint": "find . -name '*.ts' -print | grep -v .d.ts | grep -v node_modules/ | xargs tslint -t verbose",
     "nyc": "nyc",
-    "prepare": "npm run tsc",
-    "pretest": "npm run clean && npm run lint",
-    "test": "nyc mocha -r ts-node/register *.spec.ts",
+    "prepublishOnly": "npm run tsc",
+    "pretest": "npm run clean && npm run lint && npm run tsc -- --noEmit",
+    "test": "nyc mocha -r ts-node/register $(find . -name '*.spec.ts' | grep -v node_modules/)",
     "tsc": "tsc"
   },
   "nyc": {
@@ -55,10 +55,10 @@
     "sinon": "^2.3.0",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
-    "typescript": "~2.5.0"
+    "typescript": "~2.6.0"
   },
   "dependencies": {
     "@types/mithril": "~1.1.0",
-    "tslib": "^1.7.0"
+    "tslib": "^1.8.0"
   }
 }

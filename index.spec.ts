@@ -1,5 +1,4 @@
-// tslint:disable:no-reference max-line-length max-classes-per-file
-///<reference path="./types/mithril.d.ts" />
+// tslint:disable:max-line-length max-classes-per-file
 
 import {
     expect,
@@ -20,7 +19,10 @@ import {
     Vnode,
 } from "mithril";
 
+// @ts-ignore
 import * as m from "mithril/render/hyperscript";
+
+// @ts-ignore
 import * as mTrust from "mithril/render/trust";
 
 import render, {
@@ -297,8 +299,8 @@ describe(render.name, () => {
         });
 
         it(`'attrs' over 'state'`, async (done) => {
-            let oninitAttrsSpy = spy();
-            let cmp = {
+            const oninitAttrsSpy = spy();
+            const cmp = {
                 oninit: oninitSpy,
                 onremove: onremoveSpy,
                 view: viewSpy,
@@ -424,7 +426,7 @@ describe(render.name, () => {
                     // public view = viewSpy;
                     public view() {
                         viewSpy();
-                    };
+                    }
                 }
                 await render(m(Cmp));
                 expect(oninitSpy.calledOnce).to.be.equal(true, `oninit was not called`);
