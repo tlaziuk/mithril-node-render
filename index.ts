@@ -44,7 +44,7 @@ export function isComponent(
 
 export function isClassComponent(
     component: any,
-): component is { new(vnode: CVnode<Attributes>): ClassComponent<Attributes> } {
+): component is new (vnode: CVnode<Attributes>) => ClassComponent<Attributes> {
     return typeof component === "function" && isComponent(component.prototype);
 }
 
