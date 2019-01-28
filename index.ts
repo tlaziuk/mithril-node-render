@@ -162,12 +162,12 @@ const parseHooks = async (
     }
 
     if (typeof onremove === "function") {
-        hooks.push(async () => await onremove.call(vnode.state, vnode));
+        hooks.push(async () => await onremove.call(vnode.state, vnode as any));
     }
 };
 
 export async function render(
-    view: Children | ComponentTypes<any, any>,
+    view: any,
     {
         attrs = {},
         hooks = [],
