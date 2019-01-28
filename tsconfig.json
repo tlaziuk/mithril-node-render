@@ -10,7 +10,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "jsx": "react",
     "lib": ["esnext", "dom"],
     "module": "commonjs",
     "sourceMap": true,
