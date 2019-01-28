@@ -113,12 +113,10 @@ describe(render.name, () => {
             expect(await render(m(`div`), { strict: true })).to.be.equal(`<div/>`);
         });
 
-        it(`should throw on non-component`, (done) => {
-            render(Symbol()).then(
-                () => { done(new Error(`failed`)); },
-                () => { done(); },
-            );
-        });
+        it(`should throw on non-component`, () => render(Symbol()).then(
+            () => { throw new Error(`failed`); },
+            () => void 0,
+        ));
     });
 
     describe(`lifecycle`, () => {
