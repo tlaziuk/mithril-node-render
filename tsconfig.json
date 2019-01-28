@@ -4,8 +4,7 @@
     "plugins": [
       { "name": "typescript-tslint-plugin" }
     ],
-    "allowJs": true,
-    "declaration": false,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
