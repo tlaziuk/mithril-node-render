@@ -44,7 +44,7 @@ export function isComponent(
 
 export function isClassComponent(
     component: any,
-): component is { new(vnode: CVnode<Attributes>): ClassComponent<Attributes> } {
+): component is new (vnode: CVnode<Attributes>) => ClassComponent<Attributes> {
     return typeof component === "function" && isComponent(component.prototype);
 }
 
@@ -162,12 +162,12 @@ const parseHooks = async (
     }
 
     if (typeof onremove === "function") {
-        hooks.push(async () => await onremove.call(vnode.state, vnode));
+        hooks.push(async () => await onremove.call(vnode.state, vnode as any));
     }
 };
 
 export async function render(
-    view: Children | ComponentTypes<any, any>,
+    view: any,
     {
         attrs = {},
         hooks = [],
