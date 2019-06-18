@@ -29,3 +29,4 @@ tags
 **.map
 !*.config.js
 .nyc_output/
+*.tgz

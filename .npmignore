@@ -27,3 +27,4 @@ tags
 **.spec.*
 **.json
 .*
+*.tgz

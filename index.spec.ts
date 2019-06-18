@@ -427,9 +427,9 @@ describe(render.name, () => {
 
     describe(`'this' in ClassComponent`, () => {
         it(`should 'state' be equal 'this'`, async () => {
-            const oninitSpy = spy();
-            const onremoveSpy = spy();
-            const viewSpy = spy(() => ``);
+            const oninitSpy: SinonSpy<any[], any> = spy();
+            const onremoveSpy: SinonSpy<any[], any> = spy();
+            const viewSpy: SinonSpy<any[], any> = spy(() => ``);
             class Cmp implements ClassComponent<Attributes> {
                 public get oninit() {
                     return oninitSpy;
